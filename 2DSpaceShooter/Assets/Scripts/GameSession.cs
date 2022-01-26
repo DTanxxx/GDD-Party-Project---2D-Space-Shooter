@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is attached to the Game Session object.
+/// The Game Session object is persistent throughout the entire game session.
+/// It keeps track of the enemies alive and player score.
+/// </summary>
 public class GameSession : MonoBehaviour
 {
-    private int numberOfEnemiesAlive = 0;
-    private int playerScore = 0;
+    [SerializeField] private int numberOfEnemiesAlive = 0;
+    [SerializeField] private int playerScore = 0;
 
     private void Awake()
     {
@@ -14,6 +19,7 @@ public class GameSession : MonoBehaviour
 
     private void SetUpSingleton()
     {
+        // Make this object a singleton so it persists through scenes.
         int numberGameSessions = FindObjectsOfType<GameSession>().Length;
         if (numberGameSessions > 1)
         {
@@ -27,12 +33,12 @@ public class GameSession : MonoBehaviour
 
     public void AddEnemy()
     {
-        numberOfEnemiesAlive++;
+        numberOfEnemiesAlive += 1;
     }
 
     public void RemoveEnemy()
     {
-        numberOfEnemiesAlive--;
+        numberOfEnemiesAlive -= 1;
     }
 
     public int GetNumberOfEnemiesAlive()

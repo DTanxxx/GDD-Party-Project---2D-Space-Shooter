@@ -24,11 +24,41 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3013581468024950851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.514, z: 0}
+  m_LocalPosition: {x: -0.344, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8923282080627436431}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5717111148143537657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8617965980248294417}
+  m_Layer: 0
+  m_Name: ProjectileSpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8617965980248294417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5717111148143537657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.266, y: -0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8923282080627436431}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8923282080627436425
 GameObject:
@@ -42,10 +72,10 @@ GameObject:
   - component: {fileID: 8923282080627436424}
   - component: {fileID: 6226550087554813328}
   - component: {fileID: 3704498424820315929}
-  - component: {fileID: 2026454282588921428}
-  - component: {fileID: 1898173709283323490}
+  - component: {fileID: -7550759677657673553}
+  - component: {fileID: -6609167771570903793}
   m_Layer: 0
-  m_Name: Enemy 2
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,9 +90,10 @@ Transform:
   m_GameObject: {fileID: 8923282080627436425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 5204636786746863880}
+  - {fileID: 8617965980248294417}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -106,7 +137,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ff7bed6527b9b4ce89a8e9ec2db3ab5f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c3c3bef4df874824b1b425745459a9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,32 +185,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.495
---- !u!114 &2026454282588921428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8923282080627436425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afe50c5a8259c484a96d41e32d1c8ffb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 7985892925983672440, guid: efeadbc38b80b124193cb3b47a81a1a0, type: 3}
-  projectileSpeed: 10
-  projectileSpawnPoint: {fileID: 3013581468024950851}
-  firingSFX: {fileID: 8300000, guid: 4a7dc94b75a424ea29591af128f9e5ec, type: 3}
-  firingVolume: 0.5
-  destructionSFX: {fileID: 8300000, guid: 13bb64cdfb32f4cb690ed17f82ad9bfc, type: 3}
-  destructionVolume: 0.2
-  destructionParticles: {fileID: 8399658251178711543, guid: 117c8d0e3aded426c85fd5ebdcdf5fdc, type: 3}
-  destructionExplosionDuration: 0.5
-  health: 50
-  scoreWhenDestroyed: 20
-  minFireInterval: 2
-  maxFireInterval: 3
---- !u!114 &1898173709283323490
+--- !u!114 &-7550759677657673553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,3 +197,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f610ed6ebebad0841bd1b2fdfe720568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6609167771570903793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923282080627436425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10adc29e8979360408ae3ad2f6bffc08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 300
+  projectilePrefab: {fileID: 7985892925983672440, guid: 0764d0f9bc34fd942bd7f55b8d94f5b4, type: 3}
+  projectileSpeed: 10
+  projectileSpawnPoints:
+  - {fileID: 3013581468024950851}
+  - {fileID: 5717111148143537657}
+  firingSFX: {fileID: 8300000, guid: 4a7dc94b75a424ea29591af128f9e5ec, type: 3}
+  firingVolume: 0.5
+  destructionSFX: {fileID: 8300000, guid: 13bb64cdfb32f4cb690ed17f82ad9bfc, type: 3}
+  destructionVolume: 0.2
+  destructionParticles: {fileID: 8399658251178711543, guid: 117c8d0e3aded426c85fd5ebdcdf5fdc, type: 3}
+  destructionExplosionDuration: 0.5
+  scoreWhenDestroyed: 100
+  minFireInterval: 1.5
+  maxFireInterval: 2

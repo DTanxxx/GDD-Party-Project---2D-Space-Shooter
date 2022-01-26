@@ -2,14 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class is attached to the Projectile game object, storing relevant information of a projectile.
+/// <summary>
+/// This class is attached to the Projectile game object.
+/// </summary>
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private int damage = 10;
+    [SerializeField] protected int damage = 10;
 
-    // Getter method for the damage stat.
     public int GetDamage()
     {
         return damage;
+    }
+
+    public void SetDamage(int damage)
+    {
+        this.damage = damage;
+    }
+
+    public void ApplyDamageBonus(float damageBonus)
+    {
+        damage = (int)(damage * damageBonus);
     }
 }

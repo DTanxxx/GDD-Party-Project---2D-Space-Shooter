@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class is a behavior attached to the Player game object.
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseShip
 {
-    [SerializeField] private int health = 500;
+    [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float movementBoundaryPadding = 5.0f;
+
+    [Header("Player Combat")]
     [SerializeField] private float fireInterval = 0.5f;
-    [SerializeField] private GameObject projectilePrefab = null;
-    [SerializeField] private float projectileSpeed = 2.0f;
-    [SerializeField] private GameObject projectileSpawnPoint = null;
-    [SerializeField] private AudioClip firingSFX = null;
-    [SerializeField] [Range(0, 1)] private float firingVolume = 1.0f;
-    [SerializeField] private AudioClip destructionSFX = null;
-    [SerializeField] [Range(0, 1)] private float destructionVolume = 0.2f;
-    [SerializeField] private ParticleSystem destructionParticles = null;
-    [SerializeField] private float destructionExplosionDuration = 0.5f;
 
     private float leftBoundary;
     private float rightBoundary;
     private float topBoundary;
     private float bottomBoundary;
 
-    private Coroutine firingCoroutine;
+    private PowerUpConfig powerUp;
+    private float powerUpTime = 0.0f;
+    private float firingTimer = 0.0f;
 
     private void Start()
     {
@@ -37,6 +31,14 @@ public class PlayerController : MonoBehaviour
         // Handle player input each frame.
         HandleMovementInput();
         HandleFireInput();
+
+        if (powerUpTime > 0.0f)
+        {
+            if (Time.realtimeSinceStartup - powerUpTime > powerUp.GetPowerUpDuration())
+            {
+                powerUpTime = 0.0f;
+            }
+        }
     }
 
     private void HandleMovementInput()
@@ -53,29 +55,24 @@ public class PlayerController : MonoBehaviour
 
     private void HandleFireInput()
     {
-        // Control the firing keybind.
-        if (Input.GetKeyDown(KeyCode.Space))
+        firingTimer -= Time.deltaTime;
+        // Fire according to a timer.
+        if (Input.GetKey(KeyCode.Space) && firingTimer <= 0.0f)
         {
-            firingCoroutine = StartCoroutine(FireContinuously());
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            StopCoroutine(firingCoroutine);
-        }
-    }
-
-    private IEnumerator FireContinuously()
-    {
-        // When we press Space, this coroutine is executed, which involved an infinite loop.
-        while (true)
-        {
-            // For each iteration of the loop, we instantiate a player's projectile and gives it a velocity upwards.
-            var projectile = Instantiate(projectilePrefab, projectileSpawnPoint.transform.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
-            // Play a sound effect for player firing.
-            AudioSource.PlayClipAtPoint(firingSFX, Camera.main.transform.position, firingVolume);
-            // Wait asynchronously a fireInterval amount of time before executing the next iteration of the loop.
-            yield return new WaitForSeconds(fireInterval);
+            firingTimer = fireInterval;
+            if (powerUpTime > 0.0f && powerUp.GetFireRateMultiplier() > 0.0f)
+            {
+                firingTimer = firingTimer / powerUp.GetFireRateMultiplier();
+            }
+            if (powerUpTime > 0.0f)
+            {
+                Fire(1, powerUp.GetDamageMultiplier());
+            }
+            else
+            {
+                Fire(1, 1);
+            }
+            
         }
     }
 
@@ -89,29 +86,41 @@ public class PlayerController : MonoBehaviour
         bottomBoundary = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + movementBoundaryPadding;
     }
 
+    private void ApplyPowerUp()
+    {
+        health += powerUp.GetHealthBuff();
+        powerUpTime = Time.realtimeSinceStartup;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "EnemyProjectile")
         {
             // Take damage only if the player collides with an enemy projectile.
-            Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-            health = Mathf.Max(health - projectile.GetDamage(), 0);
+            if (powerUpTime > 0.0f && powerUp.GetInvincibilityBuff())
+            {
+                Destroy(collision.gameObject);
+                return;
+            }
+            TakeProjectileDamage(collision);
             if (health <= 0)
             {
                 Die();
             }
-
+        }
+        else if (collision.gameObject.tag == "PowerUp")
+        {
+            // If player collided with a power up, use it.
+            powerUp = collision.gameObject.GetComponent<PowerUp>().GetPowerUpConfig();
+            ApplyPowerUp();
             Destroy(collision.gameObject);
         }
     }
 
-    private void Die()
+    override protected void Die()
     {
-        // Same as Enemy's Die()
-        AudioSource.PlayClipAtPoint(destructionSFX, Camera.main.transform.position, destructionVolume);
-        var explosion = Instantiate(destructionParticles, transform.position, Quaternion.identity);
-        Destroy(explosion, destructionExplosionDuration);
-        Destroy(gameObject);
+        base.Die();
+        // Transition to game over scene when player dies.
         FindObjectOfType<LevelManager>().LoadGameOverScene();
     }
 

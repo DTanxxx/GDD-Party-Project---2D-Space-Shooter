@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3298685718417724522}
   - component: {fileID: 9153781494819563297}
   - component: {fileID: -5893901984357725441}
-  - component: {fileID: 580146659643895526}
+  - component: {fileID: -4994330225559670527}
   m_Layer: 0
-  m_Name: Player Projectile
-  m_TagString: PlayerProjectile
+  m_Name: Scatter Projectile
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,10 +74,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 47cba3e77c46d49fe9a0a3fc6f3572b3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da24ea18f6b9a48ee8284d1ed2252edc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 0.09, y: 0.37}
   m_AdaptiveModeThreshold: 0.5
@@ -122,7 +122,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.13, y: 0.37}
   m_Direction: 0
---- !u!114 &580146659643895526
+--- !u!114 &-4994330225559670527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7985892925983672440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed4653e30092304b9f49edd42d53d1b, type: 3}
+  m_Script: {fileID: 11500000, guid: dcc8fb1cc5203144489eae1273aa2d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 80
+  damage: 10
+  timeBeforeScattering: 0.5
+  numberOfScatters: 5
+  scatterProjectile: {fileID: 7985892925983672440}
+  scatteredProjectileSpeedReductionFactor: 2
+  scatters: 1
