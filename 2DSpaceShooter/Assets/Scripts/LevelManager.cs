@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This class is attached to the Scene Manager game object.
+/// It handles scene transitioning.
+/// </summary>
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private float transitionDelay = 2.0f;
@@ -19,19 +23,31 @@ public class LevelManager : MonoBehaviour
             // Remove the existing singleton
             FindObjectOfType<GameSession>().ResetGame();
         }
-        Debug.Log("Load Game!");
-        SceneManager.LoadScene("Game Scene");
+        SceneManager.LoadScene("Level 1");
+    }
+
+    public void LoadNextScene()
+    {
+        StartCoroutine(WaitAndLoad(sceneID:SceneManager.GetActiveScene().buildIndex + 1));
     }
 
     public void LoadGameOverScene()
     {
-        StartCoroutine(WaitAndLoad());
+        StartCoroutine(WaitAndLoad(sceneName:"Game Over"));
     }
 
-    private IEnumerator WaitAndLoad()
+    private IEnumerator WaitAndLoad(string sceneName="", int sceneID=-1)
     {
+        // Loads the game over scene after a short delay.
         yield return new WaitForSeconds(transitionDelay);
-        SceneManager.LoadScene("Game Over");
+        if (sceneName.Length > 0)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneID);
+        }
     }
 
     public void QuitGame()

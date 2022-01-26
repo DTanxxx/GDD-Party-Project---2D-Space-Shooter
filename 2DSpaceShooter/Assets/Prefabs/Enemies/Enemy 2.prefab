@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 6226550087554813328}
   - component: {fileID: 3704498424820315929}
   - component: {fileID: 2026454282588921428}
-  - component: {fileID: -7550759677657673553}
+  - component: {fileID: 1898173709283323490}
   m_Layer: 0
-  m_Name: Enemy 3
+  m_Name: Enemy 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c43499674fb7e4265afd2786caa6e5f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff7bed6527b9b4ce89a8e9ec2db3ab5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -166,20 +166,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe50c5a8259c484a96d41e32d1c8ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  scoreWhenDestroyed: 20
-  minFireInterval: 2
-  maxFireInterval: 3
+  health: 100
   projectilePrefab: {fileID: 7985892925983672440, guid: efeadbc38b80b124193cb3b47a81a1a0, type: 3}
   projectileSpeed: 10
-  projectileSpawnPoint: {fileID: 3013581468024950851}
+  projectileSpawnPoints:
+  - {fileID: 3013581468024950851}
   firingSFX: {fileID: 8300000, guid: 4a7dc94b75a424ea29591af128f9e5ec, type: 3}
   firingVolume: 0.5
   destructionSFX: {fileID: 8300000, guid: 13bb64cdfb32f4cb690ed17f82ad9bfc, type: 3}
   destructionVolume: 0.2
   destructionParticles: {fileID: 8399658251178711543, guid: 117c8d0e3aded426c85fd5ebdcdf5fdc, type: 3}
   destructionExplosionDuration: 0.5
---- !u!114 &-7550759677657673553
+  scoreWhenDestroyed: 20
+  minFireInterval: 2
+  maxFireInterval: 3
+--- !u!114 &1898173709283323490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

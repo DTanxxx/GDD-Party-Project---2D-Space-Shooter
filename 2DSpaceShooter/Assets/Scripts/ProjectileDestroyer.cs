@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class is attached to ProjectileDestroyer game object to destroy projectiles.
+/// <summary>
+/// This class is attached to the ProjectileDestroyer game object.
+/// It handles the destruction of projectiles that fly off the scene.
+/// </summary>
 public class ProjectileDestroyer : MonoBehaviour
 {
     // Unity callback, when this game object's collider contacts any other colliders.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(collision.gameObject);
+        if (collision.GetComponent<Projectile>() || collision.GetComponent<PowerUp>())
+        {
+            Destroy(collision.gameObject);
+        }       
     }
 }

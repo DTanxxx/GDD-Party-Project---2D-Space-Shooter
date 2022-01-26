@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is attached to the WaveConfig scriptable object.
+/// It contains data for an enemy wave.
+/// </summary>
 [CreateAssetMenu(menuName = "Enemy Wave Config")]
 public class WaveConfig : ScriptableObject
 {
@@ -10,7 +14,6 @@ public class WaveConfig : ScriptableObject
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float timeBetweenSpawns = 0.5f;
     [SerializeField] private int numberOfEnemies = 5;
-    [SerializeField] private float spawnRandomFactor = 0.3f;
 
     public GameObject GetEnemyPrefab()
     {
@@ -31,11 +34,6 @@ public class WaveConfig : ScriptableObject
     public float GetTimeBetweenSpawns()
     {
         return timeBetweenSpawns;
-    }
-
-    public float GetSpawnRandomFactor()
-    {
-        return spawnRandomFactor;
     }
 
     public int GetNumberOfEnemies()

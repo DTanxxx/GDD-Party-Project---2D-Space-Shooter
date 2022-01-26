@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class is attached to the EnemySpawner game object.
+/// <summary>
+/// This class is attached to the EnemySpawner object.
+/// It handles enemy wave-spawning logic.
+/// </summary>
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<WaveConfig> waves;
     [SerializeField] private int startingWave = 0;
-    [SerializeField] private bool looping = false;
     [SerializeField] private float waveInterval = 1.5f;
+    [SerializeField] private int numberOfLoops = 2;
 
     private GameSession gameSession;
     private bool continueNextWave = true;
@@ -18,9 +21,12 @@ public class EnemySpawner : MonoBehaviour
         gameSession = FindObjectOfType<GameSession>();
         do
         {
+            // Start the wave spawning coroutine.
             yield return StartCoroutine(SpawnAllWaves());
+            numberOfLoops -= 1;
         }
-        while (looping);
+        while (numberOfLoops > 0);
+        yield return SpawnAllEnemiesInWave(waves[waves.Count - 1]);
     }
 
     private void Update()
@@ -33,13 +39,16 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnAllWaves()
     {
-        for (int i = startingWave; i < waves.Count; i++)
+        for (int i = startingWave; i < waves.Count-1; i++)
         {
+            Debug.Log("Spawn wave!");
+            // Iterate through the waves list and spawn waves
             var currentWave = waves[i];
             continueNextWave = false;
             yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
             while (!continueNextWave)
             {
+                // Until every enemy in the current wave is destroyed, don't spawn the next wave.
                 yield return new WaitForEndOfFrame();
             }
             yield return new WaitForSeconds(waveInterval);
@@ -50,11 +59,13 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < waveConfig.GetNumberOfEnemies(); i++)
         {
+            // Spawn the number of enemies configured inside the waveConfig scriptable object.
             gameSession.AddEnemy();
             var enemyPrefab = waveConfig.GetEnemyPrefab();
             var enemyInstance = Instantiate(enemyPrefab, waveConfig.GetWaypoints()[0].transform.position,
                 Quaternion.identity);
             enemyInstance.GetComponent<EnemyMovement>().SetWaveConfig(waveConfig);
+            // Wait for a short duration before spawning the next enemy.
             yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
         }
     }

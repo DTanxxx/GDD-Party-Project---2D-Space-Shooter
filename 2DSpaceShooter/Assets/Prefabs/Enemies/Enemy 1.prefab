@@ -167,18 +167,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  scoreWhenDestroyed: 20
-  minFireInterval: 2
-  maxFireInterval: 3
   projectilePrefab: {fileID: 7985892925983672440, guid: efeadbc38b80b124193cb3b47a81a1a0, type: 3}
   projectileSpeed: 10
-  projectileSpawnPoint: {fileID: 3013581468024950851}
+  projectileSpawnPoints:
+  - {fileID: 3013581468024950851}
   firingSFX: {fileID: 8300000, guid: 4a7dc94b75a424ea29591af128f9e5ec, type: 3}
   firingVolume: 0.5
   destructionSFX: {fileID: 8300000, guid: 13bb64cdfb32f4cb690ed17f82ad9bfc, type: 3}
   destructionVolume: 0.2
   destructionParticles: {fileID: 8399658251178711543, guid: 117c8d0e3aded426c85fd5ebdcdf5fdc, type: 3}
   destructionExplosionDuration: 0.5
+  scoreWhenDestroyed: 20
+  minFireInterval: 2
+  maxFireInterval: 3
 --- !u!114 &-8803778708334012965
 MonoBehaviour:
   m_ObjectHideFlags: 0
