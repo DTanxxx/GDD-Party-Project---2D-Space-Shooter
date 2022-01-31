@@ -10,18 +10,28 @@ public class PowerUpSpawner : MonoBehaviour
     [SerializeField] private float spawnPositionOffset = 10.0f;
 
     private int currentPowerUpIndex = 0;
+    private bool toSpawn = true;
+    private Coroutine spawnPowerUpsCoroutine;
 
     private void Start()
     {
-        StartCoroutine(SpawnPowerUps());
+        PreBossPowerUp.OnMouseClickPowerUpDelegate += EnableToSpawn;
+        spawnPowerUpsCoroutine = StartCoroutine(SpawnPowerUps());
+    }
+
+    private void OnDisable()
+    {
+        PreBossPowerUp.OnMouseClickPowerUpDelegate -= EnableToSpawn;
     }
 
     private IEnumerator SpawnPowerUps()
     {
-        while (true)
+        // DO NOT SPAWN DURING PRE BOSS BUFF SELECTION
+        while (toSpawn)
         {
             var timeToWait = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(timeToWait);
+            if (!toSpawn) { break; }
             var minXPosition = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + spawnPositionOffset;
             var maxXPosition = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - spawnPositionOffset;
             var spawnXPosition = Random.Range(minXPosition, maxXPosition);
@@ -35,5 +45,18 @@ public class PowerUpSpawner : MonoBehaviour
                 currentPowerUpIndex = 0;
             }
         }
+    }
+
+    public void SetToSpawn(bool toSpawn)
+    {
+        this.toSpawn = toSpawn;
+        StopCoroutine(spawnPowerUpsCoroutine);
+    }
+
+    private void EnableToSpawn(PowerUpConfig config)
+    {
+        Debug.Log("Enabled!");
+        toSpawn = true;
+        StartCoroutine(SpawnPowerUps());
     }
 }

@@ -11,10 +11,18 @@ public class GameSession : MonoBehaviour
 {
     [SerializeField] private int numberOfEnemiesAlive = 0;
     [SerializeField] private int playerScore = 0;
+    [SerializeField] private int playerHealth = -1;
+
+    private PlayerController player;
 
     private void Awake()
     {
         SetUpSingleton();
+    }
+
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
     }
 
     private void SetUpSingleton()
@@ -59,5 +67,15 @@ public class GameSession : MonoBehaviour
     public void AddToPlayerScore(int amount)
     {
         playerScore += amount;
+    }
+
+    public int GetPlayerHealth()
+    {
+        return playerHealth;
+    }
+
+    public void SetPlayerHealth(int health)
+    {
+        playerHealth = health;
     }
 }

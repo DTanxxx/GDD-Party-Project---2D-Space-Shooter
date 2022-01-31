@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbccdf27da344a342ae6c589fbbd9141, type: 3}
-  m_Name: Boss Wave
+  m_Name: Boss 2 Wave
   m_EditorClassIdentifier: 
   pathPrefab: {fileID: 3561818634880023435, guid: ec674ec504f86b948ab3a879243ec7a4, type: 3}
-  enemyPrefab: {fileID: 8923282080627436425, guid: 81dc1433f3e4cdd40b4d84b95743ae9d, type: 3}
+  enemyPrefab: {fileID: 8923282080627436425, guid: 303596a3dcfbbd04385e58a8305e97dd, type: 3}
   moveSpeed: 2
   timeBetweenSpawns: 1
   numberOfEnemies: 1

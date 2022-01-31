@@ -11,9 +11,20 @@ public class EnemyMovement : MonoBehaviour
     private WaveConfig waveConfig;
     private int waypointIndex = 0;
     private List<Transform> waypoints;
+    private BossStateMachine stateMachine;
+
+    private void Start()
+    {
+        stateMachine = GetComponent<BossStateMachine>();
+    }
 
     private void Update()
     {
+        if (GetComponent<Boss>() && stateMachine.GetCurrentState() == BossState.Dash)
+        {
+            transform.position = new Vector2(transform.position.x, transform.position.y - stateMachine.GetDashSpeed());
+            return;
+        }
         FollowPath();
     }
 
@@ -21,6 +32,23 @@ public class EnemyMovement : MonoBehaviour
     {
         if (waveConfig == null) { return; }
 
+        if (GetComponent<BossStateMachine>())
+        {
+            // It's a Boss!
+            // Check its state.
+            BossStateMachine stateMachine = GetComponent<BossStateMachine>();
+            if (stateMachine.GetCurrentState() == BossState.Fire)
+            {
+                // Only move if boss is in Fire state.
+                Move();
+            }
+            return;
+        }
+        Move();
+    }
+
+    private void Move()
+    {
         // If waypointIndex is less than waypoints.Count, then enemy still has points to move to.
         if (waypointIndex < waypoints.Count)
         {
@@ -39,17 +67,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            if (GetComponent<Boss>() != null)
-            {
-                // It is a Boss! Resume its path.
-                waypointIndex = 1;
-            }
-            else
-            {
-                // Once enemy finishes the path, destroy it.
-                FindObjectOfType<GameSession>().RemoveEnemy();
-                Destroy(gameObject);
-            }
+            waypointIndex = 1;
         }
     }
 
