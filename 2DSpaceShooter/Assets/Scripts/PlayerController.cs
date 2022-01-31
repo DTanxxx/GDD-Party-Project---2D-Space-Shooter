@@ -17,13 +17,27 @@ public class PlayerController : BaseShip
     private float bottomBoundary;
 
     private PowerUpConfig powerUp;
+    private GameSession gameSession;
     private float powerUpTime = 0.0f;
     private float firingTimer = 0.0f;
+    private float baseDamageMultiplier = 1.0f;
 
     private void Start()
     {
+        PreBossPowerUp.OnMouseClickPowerUpDelegate += ApplyPermanentPowerUp;
         // Calculate the player's movement boundaries so player does not go off the screen.
         SetUpMoveBoundaries();
+        gameSession = FindObjectOfType<GameSession>();
+        if (gameSession.GetPlayerHealth() > 0)
+        {
+            health = gameSession.GetPlayerHealth();
+        }
+    }
+
+    private void OnDisable()
+    {
+        PreBossPowerUp.OnMouseClickPowerUpDelegate -= ApplyPermanentPowerUp;
+        gameSession.SetPlayerHealth(health);
     }
 
     private void Update()
@@ -70,9 +84,8 @@ public class PlayerController : BaseShip
             }
             else
             {
-                Fire(1, 1);
+                Fire(1, (int)baseDamageMultiplier);
             }
-            
         }
     }
 
@@ -92,6 +105,16 @@ public class PlayerController : BaseShip
         powerUpTime = Time.realtimeSinceStartup;
     }
 
+    private void ApplyPermanentPowerUp(PowerUpConfig permanentConfig)
+    {
+        Debug.Log("Applying permanent power up");
+        health += permanentConfig.GetHealthBuff();
+        fireInterval = fireInterval / permanentConfig.GetFireRateMultiplier();
+        baseDamageMultiplier *= permanentConfig.GetDamageMultiplier();
+        Debug.Log("Fire interval is now: " + fireInterval.ToString());
+        Debug.Log("Base damage multiplier is now: " + baseDamageMultiplier.ToString());
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "EnemyProjectile")
@@ -103,6 +126,19 @@ public class PlayerController : BaseShip
                 return;
             }
             TakeProjectileDamage(collision);
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
+        else if (collision.gameObject.GetComponent<Enemy>())
+        {
+            // Take collision damage.
+            if (powerUpTime > 0.0f && powerUp.GetInvincibilityBuff())
+            {
+                return;
+            }
+            health = Mathf.Max((int)(health - collision.GetComponent<Enemy>().GetCollisionDamage()), 0);
             if (health <= 0)
             {
                 Die();

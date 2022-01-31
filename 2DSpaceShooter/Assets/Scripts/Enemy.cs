@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class Enemy : BaseShip
     [Header("Enemy Combat")]
     [SerializeField] protected float minFireInterval = 0.3f;
     [SerializeField] protected float maxFireInterval = 0.7f;
+    [SerializeField] protected float collisionDamage = 100.0f;
 
     protected GameSession gameSession;
     protected float firingCountDown;
@@ -23,7 +25,7 @@ public class Enemy : BaseShip
     virtual protected void Start()
     {
         // Initialise the firingCountDown variable, which is used as the interval between each firing.
-        firingCountDown = Random.Range(minFireInterval, maxFireInterval);
+        firingCountDown = UnityEngine.Random.Range(minFireInterval, maxFireInterval);
         gameSession = FindObjectOfType<GameSession>();
     }
 
@@ -36,7 +38,7 @@ public class Enemy : BaseShip
         {
             // Call Fire() from the parent class.
             Fire(-1, 1);
-            firingCountDown = Random.Range(minFireInterval, maxFireInterval);
+            firingCountDown = UnityEngine.Random.Range(minFireInterval, maxFireInterval);
         }
     }
 
@@ -68,5 +70,10 @@ public class Enemy : BaseShip
         {
             FindObjectOfType<LevelManager>().LoadNextScene();
         }
+    }
+
+    public float GetCollisionDamage()
+    {
+        return collisionDamage;
     }
 }

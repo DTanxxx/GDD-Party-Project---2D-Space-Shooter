@@ -74,8 +74,9 @@ GameObject:
   - component: {fileID: 3704498424820315929}
   - component: {fileID: -7550759677657673553}
   - component: {fileID: -6609167771570903793}
+  - component: {fileID: 7806268625414277148}
   m_Layer: 0
-  m_Name: Boss
+  m_Name: Boss 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10adc29e8979360408ae3ad2f6bffc08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 300
+  health: 10000
   projectilePrefab: {fileID: 7985892925983672440, guid: 0764d0f9bc34fd942bd7f55b8d94f5b4, type: 3}
   projectileSpeed: 10
   projectileSpawnPoints:
@@ -224,3 +225,20 @@ MonoBehaviour:
   scoreWhenDestroyed: 100
   minFireInterval: 1.5
   maxFireInterval: 2
+  collisionDamage: 150
+--- !u!114 &7806268625414277148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923282080627436425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db595e26022a0740977b2af63b268e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeForFireState: 10
+  timeForIdleState: 1
+  timeForDashState: 0.4
+  dashSpeed: 0.05

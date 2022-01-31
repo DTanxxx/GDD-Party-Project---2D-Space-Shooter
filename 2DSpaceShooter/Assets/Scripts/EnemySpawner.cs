@@ -9,6 +9,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<WaveConfig> waves;
+    [SerializeField] private WaveConfig bossWave;
     [SerializeField] private int startingWave = 0;
     [SerializeField] private float waveInterval = 1.5f;
     [SerializeField] private int numberOfLoops = 2;
@@ -18,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator Start()
     {
+        PreBossPowerUp.OnMouseClickPowerUpDelegate += SpawnBoss;
         gameSession = FindObjectOfType<GameSession>();
         do
         {
@@ -26,7 +28,14 @@ public class EnemySpawner : MonoBehaviour
             numberOfLoops -= 1;
         }
         while (numberOfLoops > 0);
-        yield return SpawnAllEnemiesInWave(waves[waves.Count - 1]);
+        //yield return SpawnAllEnemiesInWave(waves[waves.Count - 1]);
+        // Finished spawning the waves, tell PreBossPowerUpSpawner to show pre boss buffs.
+        StartCoroutine(FindObjectOfType<PreBossPowerUpSpawner>().ShowPowerUps());
+    }
+
+    private void OnDisable()
+    {
+        PreBossPowerUp.OnMouseClickPowerUpDelegate -= SpawnBoss;
     }
 
     private void Update()
@@ -39,9 +48,8 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnAllWaves()
     {
-        for (int i = startingWave; i < waves.Count-1; i++)
+        for (int i = startingWave; i < waves.Count; i++)
         {
-            Debug.Log("Spawn wave!");
             // Iterate through the waves list and spawn waves
             var currentWave = waves[i];
             continueNextWave = false;
@@ -68,5 +76,17 @@ public class EnemySpawner : MonoBehaviour
             // Wait for a short duration before spawning the next enemy.
             yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
         }
+    }
+
+    private void SpawnBoss(PowerUpConfig config)
+    {
+        Debug.Log("Spawn Boss!");
+        StartCoroutine(SpawnBossWithDelay());
+    }
+
+    private IEnumerator SpawnBossWithDelay()
+    {
+        yield return new WaitForSeconds(waveInterval);
+        yield return SpawnAllEnemiesInWave(bossWave);
     }
 }
