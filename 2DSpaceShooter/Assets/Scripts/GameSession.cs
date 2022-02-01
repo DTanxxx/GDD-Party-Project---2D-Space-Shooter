@@ -13,7 +13,8 @@ public class GameSession : MonoBehaviour
     [SerializeField] private int playerScore = 0;
     [SerializeField] private int playerHealth = -1;
 
-    private PlayerController player;
+    private Player player;
+    public bool paused;
 
     private void Awake()
     {
@@ -22,7 +23,22 @@ public class GameSession : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<Player>();
+        paused = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && !paused)
+        {
+            Time.timeScale = 0;
+            paused = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 1;
+            paused = false;
+        }
     }
 
     private void SetUpSingleton()

@@ -12,9 +12,12 @@ public class PreBossPowerUp : MonoBehaviour
     // Detects mouse click
     // Trigger event subscribed by EnemySpawner to spawn boss
     // ... and PowerUpSpawner to spawn power ups
-    // ... and PlayerController to use the power up
+    // ... and Player to use the power up
     private void OnMouseDown()
     {
-        OnMouseClickPowerUpDelegate.Invoke(powerUpConfig);
+        if (!FindObjectOfType<GameSession>().paused)
+        {
+            OnMouseClickPowerUpDelegate.Invoke(powerUpConfig);
+        }        
     }
 }

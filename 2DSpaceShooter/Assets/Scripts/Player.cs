@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseShip
+public class Player : BaseShip
 {
     [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 5.0f;
@@ -42,6 +42,7 @@ public class PlayerController : BaseShip
 
     private void Update()
     {
+        if (gameSession.paused) { return; }
         // Handle player input each frame.
         HandleMovementInput();
         HandleFireInput();
@@ -138,6 +139,7 @@ public class PlayerController : BaseShip
             {
                 return;
             }
+            TakeCollisionDamage();
             health = Mathf.Max((int)(health - collision.GetComponent<Enemy>().GetCollisionDamage()), 0);
             if (health <= 0)
             {
