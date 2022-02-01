@@ -11,15 +11,15 @@ public class HealthDisplay : MonoBehaviour
 {
     [SerializeField] private Text healthText = null;
 
-    private PlayerController playerController;
+    private Player player;
 
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<Player>();
     }
 
     private void Update()
     {
-        healthText.text = playerController.GetHealth().ToString();
+        healthText.text = player.GetHealth().ToString();
     }
 }

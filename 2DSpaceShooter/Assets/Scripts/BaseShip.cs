@@ -24,6 +24,11 @@ public class BaseShip : MonoBehaviour
     [SerializeField] [Range(0, 1)] protected float destructionVolume = 0.2f;
     [SerializeField] protected ParticleSystem destructionParticles = null;
     [SerializeField] protected float destructionExplosionDuration = 0.5f;
+    [SerializeField] protected float fadeWhenHitDuration = 0.5f;
+    [SerializeField] protected float fadeAlpha = 80.0f;
+
+    private Coroutine fadeCoroutine;
+    private Color originalSpriteColor;
     
     // The 3 methods below are available to child classes.
     virtual protected void Fire(int direction, float damageBonus)
@@ -42,11 +47,36 @@ public class BaseShip : MonoBehaviour
 
     protected void TakeProjectileDamage(Collider2D collision)
     {
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+            GetComponent<SpriteRenderer>().material.color = originalSpriteColor;
+        }
+        fadeCoroutine = StartCoroutine(FadeWhenHit());
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
         // Calculate the new health after damage is applied; restrict it be >= 0
         health = Mathf.Max(health - projectile.GetDamage(), 0);
         // Destory the projectile.
         Destroy(collision.gameObject);
+    }
+
+    protected void TakeCollisionDamage()
+    {
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+            GetComponent<SpriteRenderer>().material.color = originalSpriteColor;
+        }
+        fadeCoroutine = StartCoroutine(FadeWhenHit());
+    }
+
+    protected IEnumerator FadeWhenHit()
+    {
+        var renderer = GetComponent<SpriteRenderer>();
+        originalSpriteColor = renderer.material.color;
+        renderer.material.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, fadeAlpha);
+        yield return new WaitForSeconds(fadeWhenHitDuration);
+        renderer.material.color = originalSpriteColor;
     }
 
     virtual protected void Die()

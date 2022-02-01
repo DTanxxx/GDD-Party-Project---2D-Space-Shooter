@@ -109,6 +109,8 @@ MonoBehaviour:
   destructionVolume: 0.2
   destructionParticles: {fileID: 8399658251178711543, guid: 117c8d0e3aded426c85fd5ebdcdf5fdc, type: 3}
   destructionExplosionDuration: 0.5
+  fadeWhenHitDuration: 0.1
+  fadeAlpha: 0.5
   moveSpeed: 10
   movementBoundaryPadding: 1
   fireInterval: 0.3
