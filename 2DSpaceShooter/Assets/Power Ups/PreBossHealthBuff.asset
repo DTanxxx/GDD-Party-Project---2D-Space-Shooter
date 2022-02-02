@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ec969525bbd57f408a4199e481d4506, type: 3}
-  m_Name: Health Buff
+  m_Name: PreBossHealthBuff
   m_EditorClassIdentifier: 
   fireRateMultiplier: 1
-  healthBuff: 150
+  healthBuff: 300
   invincibilityBuff: 0
   damageMultiplier: 1
-  powerUpDuration: 5
+  powerUpDuration: 1
