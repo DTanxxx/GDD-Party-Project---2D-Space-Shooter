@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
 
     private GameSession gameSession;
     private bool continueNextWave = true;
+    private bool waveFinished = false;
 
     IEnumerator Start()
     {
@@ -28,9 +29,7 @@ public class EnemySpawner : MonoBehaviour
             numberOfLoops -= 1;
         }
         while (numberOfLoops > 0);
-        //yield return SpawnAllEnemiesInWave(waves[waves.Count - 1]);
-        // Finished spawning the waves, tell PreBossPowerUpSpawner to show pre boss buffs.
-        StartCoroutine(FindObjectOfType<PreBossPowerUpSpawner>().ShowPowerUps());
+        waveFinished = true;
     }
 
     private void OnDisable()
@@ -43,6 +42,12 @@ public class EnemySpawner : MonoBehaviour
         if (gameSession.GetNumberOfEnemiesAlive() == 0)
         {
             continueNextWave = true;
+            if (waveFinished)
+            {
+                // Finished spawning the waves, tell PreBossPowerUpSpawner to show pre boss buffs.
+                StartCoroutine(FindObjectOfType<PreBossPowerUpSpawner>().ShowPowerUps());
+                waveFinished = false;
+            }
         }
     }
 
