@@ -20,6 +20,7 @@ public class HealthDisplay : MonoBehaviour
 
     private void Update()
     {
+        // Updates text using player health information.
         healthText.text = player.GetHealth().ToString();
     }
 }

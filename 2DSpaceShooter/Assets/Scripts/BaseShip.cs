@@ -41,6 +41,7 @@ public class BaseShip : MonoBehaviour
 
     protected void TakeProjectileDamage(Collider2D collision)
     {
+        // Fade a little when hit.
         if (fadeCoroutine != null)
         {
             StopCoroutine(fadeCoroutine);
@@ -54,21 +55,12 @@ public class BaseShip : MonoBehaviour
         Destroy(collision.gameObject);
     }
 
-    protected void TakeCollisionDamage()
-    {
-        if (fadeCoroutine != null)
-        {
-            StopCoroutine(fadeCoroutine);
-            GetComponent<SpriteRenderer>().material.color = originalSpriteColor;
-        }
-        fadeCoroutine = StartCoroutine(FadeWhenHit());
-    }
-
     protected IEnumerator FadeWhenHit()
     {
         var renderer = GetComponent<SpriteRenderer>();
         originalSpriteColor = renderer.material.color;
         renderer.material.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, fadeAlpha);
+        // Wait for fadeWhenHitDuration amount of seconds before restoring the alpha of sprite.
         yield return new WaitForSeconds(fadeWhenHitDuration);
         renderer.material.color = originalSpriteColor;
     }

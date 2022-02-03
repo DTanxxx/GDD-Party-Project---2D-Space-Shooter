@@ -52,6 +52,7 @@ public class EnemySpawner : MonoBehaviour
             }
             yield return new WaitForSeconds(waveInterval);
         }
+        // Spawn Boss after all waves are destroyed.
         SpawnBoss();
     }
 
@@ -72,7 +73,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnBoss()
     {
-        Debug.Log("Spawn Boss!");
         StartCoroutine(SpawnBossWithDelay());
     }
 

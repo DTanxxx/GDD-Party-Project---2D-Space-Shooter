@@ -13,11 +13,13 @@ public class LevelManager : MonoBehaviour
 
     public void LoadStartMenu()
     {
+        // Loads the Start Menu.
         SceneManager.LoadScene(0);
     }
 
     public void LoadGameScene()
     {
+        // Loads the first level.
         if (FindObjectOfType<GameSession>() != null)
         {
             // Remove the existing singleton
@@ -33,6 +35,7 @@ public class LevelManager : MonoBehaviour
 
     public void LoadGameOverScene()
     {
+        // Loads the Loss Screen.
         StartCoroutine(WaitAndLoad(sceneName:"Game Over"));
     }
 

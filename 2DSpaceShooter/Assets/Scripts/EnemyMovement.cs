@@ -62,6 +62,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
+            // Retrace the path.
             waypointIndex = 1;
         }
     }

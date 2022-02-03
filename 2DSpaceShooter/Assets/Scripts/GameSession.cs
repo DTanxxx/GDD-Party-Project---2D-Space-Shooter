@@ -12,7 +12,6 @@ public class GameSession : MonoBehaviour
     [SerializeField] private int numberOfEnemiesAlive = 0;
     [SerializeField] private int playerHealth = -1;
 
-    private Player player;
     public bool paused;
 
     private void Awake()
@@ -22,12 +21,12 @@ public class GameSession : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<Player>();
         paused = false;
     }
 
     private void Update()
     {
+        // Pause the game when 'P' key is pressed.
         if (Input.GetKeyDown(KeyCode.P) && !paused)
         {
             Time.timeScale = 0;

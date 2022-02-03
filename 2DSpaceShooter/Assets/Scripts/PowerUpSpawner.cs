@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is attached to the Power Up Spawner game object.
+/// It handles timed power up instantiation.
+/// </summary>
 public class PowerUpSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] powerUps;
@@ -23,6 +27,7 @@ public class PowerUpSpawner : MonoBehaviour
         {
             var timeToWait = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(timeToWait);
+            // Adds some random offset for spawn position.
             var minXPosition = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + spawnPositionOffset;
             var maxXPosition = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - spawnPositionOffset;
             var spawnXPosition = Random.Range(minXPosition, maxXPosition);
@@ -32,7 +37,7 @@ public class PowerUpSpawner : MonoBehaviour
             currentPowerUpIndex += 1;
             if (currentPowerUpIndex == powerUps.Length)
             {
-                // Last power up, reset index/
+                // Last power up, reset index.
                 currentPowerUpIndex = 0;
             }
         }
