@@ -18,10 +18,6 @@ public class BaseShip : MonoBehaviour
     [SerializeField] protected GameObject[] projectileSpawnPoints = null;
 
     [Header("Effects")]
-    [SerializeField] protected AudioClip firingSFX = null;
-    [SerializeField] [Range(0, 1)] protected float firingVolume = 0.5f;
-    [SerializeField] protected AudioClip destructionSFX = null;
-    [SerializeField] [Range(0, 1)] protected float destructionVolume = 0.2f;
     [SerializeField] protected ParticleSystem destructionParticles = null;
     [SerializeField] protected float destructionExplosionDuration = 0.5f;
     [SerializeField] protected float fadeWhenHitDuration = 0.5f;
@@ -41,8 +37,6 @@ public class BaseShip : MonoBehaviour
             projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(0, direction * projectileSpeed);
             projectile.GetComponent<Projectile>().ApplyDamageBonus(damageBonus);
         }
-        // Play a firing sound effect.
-        AudioSource.PlayClipAtPoint(firingSFX, Camera.main.transform.position, firingVolume);
     }
 
     protected void TakeProjectileDamage(Collider2D collision)
@@ -81,8 +75,6 @@ public class BaseShip : MonoBehaviour
 
     virtual protected void Die()
     {
-        // Play a destruction sound effect.
-        AudioSource.PlayClipAtPoint(destructionSFX, Camera.main.transform.position, destructionVolume);
         // Instantiate a destruction particle system.
         var explosion = Instantiate(destructionParticles, transform.position, Quaternion.identity);
         // Destroy the particle system after a short duration, which by then the particles would have disappeared.

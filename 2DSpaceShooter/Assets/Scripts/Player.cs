@@ -24,7 +24,6 @@ public class Player : BaseShip
 
     private void Start()
     {
-        PreBossPowerUp.OnMouseClickPowerUpDelegate += ApplyPermanentPowerUp;
         // Calculate the player's movement boundaries so player does not go off the screen.
         SetUpMoveBoundaries();
         gameSession = FindObjectOfType<GameSession>();
@@ -36,7 +35,6 @@ public class Player : BaseShip
 
     private void OnDisable()
     {
-        PreBossPowerUp.OnMouseClickPowerUpDelegate -= ApplyPermanentPowerUp;
         gameSession.SetPlayerHealth(health);
     }
 
@@ -106,16 +104,6 @@ public class Player : BaseShip
         powerUpTime = Time.realtimeSinceStartup;
     }
 
-    private void ApplyPermanentPowerUp(PowerUpConfig permanentConfig)
-    {
-        Debug.Log("Applying permanent power up");
-        health += permanentConfig.GetHealthBuff();
-        fireInterval = fireInterval / permanentConfig.GetFireRateMultiplier();
-        baseDamageMultiplier *= permanentConfig.GetDamageMultiplier();
-        Debug.Log("Fire interval is now: " + fireInterval.ToString());
-        Debug.Log("Base damage multiplier is now: " + baseDamageMultiplier.ToString());
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "EnemyProjectile")
@@ -127,24 +115,6 @@ public class Player : BaseShip
                 return;
             }
             TakeProjectileDamage(collision);
-            if (health <= 0)
-            {
-                Die();
-            }
-        }
-        else if (collision.gameObject.GetComponent<Enemy>())
-        {
-            // Take collision damage.
-            if (powerUpTime > 0.0f && powerUp.GetInvincibilityBuff())
-            {
-                return;
-            }
-            TakeCollisionDamage();
-            health = Mathf.Max((int)(health - collision.GetComponent<Enemy>().GetCollisionDamage()), 0);
-            if (health <= 0)
-            {
-                Die();
-            }
         }
         else if (collision.gameObject.tag == "PowerUp")
         {
@@ -153,13 +123,6 @@ public class Player : BaseShip
             ApplyPowerUp();
             Destroy(collision.gameObject);
         }
-    }
-
-    override protected void Die()
-    {
-        base.Die();
-        // Transition to game over scene when player dies.
-        FindObjectOfType<LevelManager>().LoadGameOverScene();
     }
 
     public int GetHealth()
