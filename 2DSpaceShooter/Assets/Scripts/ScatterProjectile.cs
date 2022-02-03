@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is attached to the Scatter Projectile game object.
+/// It inherits from Projectile class.
+/// </summary>
 public class ScatterProjectile : Projectile
 {
     [SerializeField] private float timeBeforeScattering = 1.0f;
@@ -15,6 +19,7 @@ public class ScatterProjectile : Projectile
     {
         if (scatters)
         {
+            // Wait for a timeBeforeScattering duration amount of time before scattering.
             yield return new WaitForSeconds(timeBeforeScattering);
             Scatter();
             Destroy(gameObject);
@@ -25,6 +30,7 @@ public class ScatterProjectile : Projectile
     {       
         for (int i = 0; i < numberOfScatters; ++i)
         {
+            // Instantiate a scattered projectile.
             var scatterProjectileInstance = Instantiate(scatterProjectile,
                 transform.position, transform.rotation);
             scatterProjectileInstance.GetComponent<Projectile>().SetDamage(damage);
@@ -38,6 +44,7 @@ public class ScatterProjectile : Projectile
 
             if (i > 0)
             {
+                // Give each scattered projectile an angular displacement so that it spreads in a circle.
                 var angle = i * 2 * Mathf.PI / numberOfScatters;
                 var xComponent = Mathf.Cos(angle) * rigidBody.velocity.x - Mathf.Sin(angle) * rigidBody.velocity.y;
                 var yComponent = Mathf.Sin(angle) * rigidBody.velocity.x + Mathf.Cos(angle) * rigidBody.velocity.y;

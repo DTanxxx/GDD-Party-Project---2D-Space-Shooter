@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This is a scriptable object containing data for power ups.
+/// </summary>
 [CreateAssetMenu(menuName = "Power Up Config")]
 public class PowerUpConfig : ScriptableObject
 {

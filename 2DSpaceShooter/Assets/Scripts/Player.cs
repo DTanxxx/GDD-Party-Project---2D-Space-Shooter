@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is attached to the Player game object and contains player behavior.
+/// It handles timed firing.
+/// It inherits from BaseShip class.
+/// </summary>
 public class Player : BaseShip
 {
     [Header("Player Movement")]
@@ -29,12 +34,15 @@ public class Player : BaseShip
         gameSession = FindObjectOfType<GameSession>();
         if (gameSession.GetPlayerHealth() > 0)
         {
+            // Makes player health consistent through levels.
+            // Player health is stored in GameSession, which is a singleton.
             health = gameSession.GetPlayerHealth();
         }
     }
 
     private void OnDisable()
     {
+        // Save player health to GameSession.
         gameSession.SetPlayerHealth(health);
     }
 
@@ -100,7 +108,9 @@ public class Player : BaseShip
 
     private void ApplyPowerUp()
     {
+        // Apply power up effects when player captures a power up.
         health += powerUp.GetHealthBuff();
+        // Set a timer for the power up.
         powerUpTime = Time.realtimeSinceStartup;
     }
 

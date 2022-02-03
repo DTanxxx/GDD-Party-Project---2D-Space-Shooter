@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class contains extra Boss logic.
+/// </summary>
 public class Boss : Enemy
 {
     private BossStateMachine stateMachine;
@@ -14,6 +17,7 @@ public class Boss : Enemy
 
     override protected void Update()
     {
+        // Unlike Enemy, the Boss should fire only if its current state is Fire (which is also our only state so far).
         if (stateMachine.GetCurrentState() == BossState.Fire)
         {
             // Deduct firingCountDown.

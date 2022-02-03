@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is the BossStateMachine which is attached to the Boss game object.
+/// </summary>
 public enum BossState
 {
     Fire,
@@ -15,6 +18,7 @@ public class BossStateMachine : MonoBehaviour
 
     private void Update()
     {
+        // We will introduce state transitioning once more states are added.
         switch (state)
         {
             case BossState.Fire:
