@@ -16,11 +16,9 @@ public class EnemySpawner : MonoBehaviour
 
     private GameSession gameSession;
     private bool continueNextWave = true;
-    private bool waveFinished = false;
 
     IEnumerator Start()
     {
-        PreBossPowerUp.OnMouseClickPowerUpDelegate += SpawnBoss;
         gameSession = FindObjectOfType<GameSession>();
         do
         {
@@ -29,12 +27,6 @@ public class EnemySpawner : MonoBehaviour
             numberOfLoops -= 1;
         }
         while (numberOfLoops > 0);
-        waveFinished = true;
-    }
-
-    private void OnDisable()
-    {
-        PreBossPowerUp.OnMouseClickPowerUpDelegate -= SpawnBoss;
     }
 
     private void Update()
@@ -42,12 +34,6 @@ public class EnemySpawner : MonoBehaviour
         if (gameSession.GetNumberOfEnemiesAlive() == 0)
         {
             continueNextWave = true;
-            if (waveFinished)
-            {
-                // Finished spawning the waves, tell PreBossPowerUpSpawner to show pre boss buffs.
-                StartCoroutine(FindObjectOfType<PreBossPowerUpSpawner>().ShowPowerUps());
-                waveFinished = false;
-            }
         }
     }
 
@@ -66,6 +52,7 @@ public class EnemySpawner : MonoBehaviour
             }
             yield return new WaitForSeconds(waveInterval);
         }
+        SpawnBoss();
     }
 
     private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveConfig)
@@ -83,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnBoss(PowerUpConfig config)
+    private void SpawnBoss()
     {
         Debug.Log("Spawn Boss!");
         StartCoroutine(SpawnBossWithDelay());

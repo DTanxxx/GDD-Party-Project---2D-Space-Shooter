@@ -20,11 +20,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<Boss>() && stateMachine.GetCurrentState() == BossState.Dash)
-        {
-            transform.position = new Vector2(transform.position.x, transform.position.y - stateMachine.GetDashSpeed());
-            return;
-        }
         FollowPath();
     }
 

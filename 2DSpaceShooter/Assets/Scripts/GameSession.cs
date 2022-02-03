@@ -10,7 +10,6 @@ using UnityEngine;
 public class GameSession : MonoBehaviour
 {
     [SerializeField] private int numberOfEnemiesAlive = 0;
-    [SerializeField] private int playerScore = 0;
     [SerializeField] private int playerHealth = -1;
 
     private Player player;
@@ -73,16 +72,6 @@ public class GameSession : MonoBehaviour
     public void ResetGame()
     {
         Destroy(gameObject);
-    }
-
-    public int GetPlayerScore()
-    {
-        return playerScore;
-    }
-
-    public void AddToPlayerScore(int amount)
-    {
-        playerScore += amount;
     }
 
     public int GetPlayerHealth()

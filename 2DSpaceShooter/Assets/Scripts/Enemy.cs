@@ -11,13 +11,9 @@ using UnityEngine;
 public class Enemy : BaseShip
 {
     // These are the Enemy class specific serialize fields.
-    [Header("Enemy Stats")]
-    [SerializeField] protected int scoreWhenDestroyed = 20;
-
     [Header("Enemy Combat")]
     [SerializeField] protected float minFireInterval = 0.3f;
     [SerializeField] protected float maxFireInterval = 0.7f;
-    [SerializeField] protected float collisionDamage = 100.0f;
 
     protected GameSession gameSession;
     protected float firingCountDown;
@@ -64,16 +60,10 @@ public class Enemy : BaseShip
         // Add to player's score before calling parent class' Die().        
         base.Die();
         gameSession.RemoveEnemy();
-        gameSession.AddToPlayerScore(scoreWhenDestroyed);
         // If this is a Boss, then transition to the next level.
         if (GetComponent<Boss>())
         {
             FindObjectOfType<LevelManager>().LoadNextScene();
         }
-    }
-
-    public float GetCollisionDamage()
-    {
-        return collisionDamage;
     }
 }

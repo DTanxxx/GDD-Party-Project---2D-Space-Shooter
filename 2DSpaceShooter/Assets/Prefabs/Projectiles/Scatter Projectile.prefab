@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc8fb1cc5203144489eae1273aa2d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 80
   timeBeforeScattering: 0.5
   numberOfScatters: 5
   scatterProjectile: {fileID: 7985892925983672440}
